@@ -51,9 +51,9 @@ class EmbeddedHttpServer implements Runnable {
         }
     }
 
-//    public int getPort() {
-//        return this.server.getConnectors()[0].getLocalPort();
-//    }
+    public int getPort() {
+        return this.server.getConnectors()[0].getLocalPort();
+    }
 
     public boolean notStarted() {
         return !this.server.isStarted();

@@ -5,9 +5,20 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-//import com.ning.http.client.*;
-//import org.apache.commons.lang3.StringUtils;
+import com.ning.http.client.AsyncCompletionHandler;
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.AsyncHttpClientConfig;
+import com.ning.http.client.ListenableFuture;
+import com.ning.http.client.Request;
+import com.ning.http.client.RequestBuilder;
+import com.ning.http.client.Response;
+import org.apache.commons.lang3.StringUtils;
+import org.asynchttpclient.*;
 
+import com.ning.http.client.*;
+import org.apache.commons.lang3.StringUtils;
+
+//import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -25,7 +36,7 @@ public class TradeStationWebApi {
     static final AsyncHttpClient client =
             new AsyncHttpClient(new AsyncHttpClientConfig.Builder().setRequestTimeoutInMs(-1).build());
     static final ObjectMapper mapper = new ObjectMapper();
-    private Token token;
+    private com.tradestation.webapi.Token token;
 
     public TradeStationWebApi(String redirectUri) {
         APIKEY = "your api key";
@@ -39,7 +50,7 @@ public class TradeStationWebApi {
                 URLEncoder.encode(CALLBACK, "UTF-8"));
     }
 
-    public ArrayList<Quote> getQuotes(String[] symbols) {
+    public ArrayList<com.tradestation.webapi.Quote> getQuotes(String[] symbols) throws IOException {
         // encode symbols (eg: replace " " with "%20")
         ArrayList<String> encodedSymbols = new ArrayList<String>();
         for (String symbol : symbols) {
@@ -56,23 +67,19 @@ public class TradeStationWebApi {
                 .build();
 
         ListenableFuture<Response> response = null;
-        try {
-            response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
-                @Override
-                public Response onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
+            @Override
+            public Response onCompleted(Response response) throws Exception {
+                return response;
+            }
+        });
 
-        ArrayList<Quote> quotes = new ArrayList<Quote>();
+        ArrayList<com.tradestation.webapi.Quote> quotes = new ArrayList<com.tradestation.webapi.Quote>();
 
         if (response != null) {
             try {
                 String json = response.get().getResponseBody();
-                quotes = mapper.readValue(json, new TypeReference<ArrayList<Quote>>() {
+                quotes = mapper.readValue(json, new TypeReference<ArrayList<com.tradestation.webapi.Quote>>() {
                 });
             } catch (Exception e) {
                 e.printStackTrace();
@@ -85,7 +92,7 @@ public class TradeStationWebApi {
         return this.token;
     }
 
-    public void setAccessToken(String authorizationCode) {
+    public void setAccessToken(String authorizationCode) throws IOException {
         if (authorizationCode.isEmpty()) return;
         Request request = new RequestBuilder("POST")
                 .setUrl(BASEURL + "security/authorize")
@@ -95,16 +102,12 @@ public class TradeStationWebApi {
                 .build();
 
         ListenableFuture<Response> response = null;
-        try {
-            response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
-                @Override
-                public Response onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
+            @Override
+            public Response onCompleted(Response response) throws Exception {
+                return response;
+            }
+        });
 
         Token token = null;
         if (response != null) {
@@ -119,7 +122,7 @@ public class TradeStationWebApi {
         this.token = token;
     }
 
-    public void setAccessToken(Token token) {
+    public void setAccessToken(Token token) throws IOException {
         if (token == null || token.getRefresh_token().isEmpty()) return;
         Request request = new RequestBuilder("POST")
                 .setUrl(BASEURL + "security/authorize")
@@ -129,16 +132,12 @@ public class TradeStationWebApi {
                 .build();
 
         ListenableFuture<Response> response = null;
-        try {
-            response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
-                @Override
-                public Response onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
+            @Override
+            public Response onCompleted(Response response) throws Exception {
+                return response;
+            }
+        });
 
         Token newToken = null;
         if (response != null) {
@@ -164,17 +163,18 @@ public class TradeStationWebApi {
                 .addHeader("Authorization", "Bearer " + this.token.getAccess_token())
                 .build();
 
-        // create an event source
-        final StreamSource streamSource = new StreamSource<IntradayBar>(request, IntradayBar.class);
+//        // create an event source
+//        final StreamSource streamSource = new StreamSource<IntradayBar>(request, IntradayBar.class);
 
         // subscribe the observer to the event source
-        streamSource.addObserver(observer);
+//        streamSource.addObserver(observer);
 
         // return the event thread
-        return new Thread(streamSource);
+        return null;
+//        return new Thread(streamSource);
     }
 
-    public ArrayList<AccountInfo> getUserAccounts() {
+    public ArrayList<AccountInfo> getUserAccounts() throws IOException {
         Request request = new RequestBuilder("GET")
                 .setUrl(BASEURL + String.format("users/%s/accounts", this.token.getUserid()))
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -182,16 +182,12 @@ public class TradeStationWebApi {
                 .build();
 
         ListenableFuture<Response> response = null;
-        try {
-            response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
-                @Override
-                public Response onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
+            @Override
+            public Response onCompleted(Response response) throws Exception {
+                return response;
+            }
+        });
 
         ArrayList<AccountInfo> accounts = new ArrayList<AccountInfo>();
 
@@ -207,7 +203,7 @@ public class TradeStationWebApi {
         return accounts;
     }
 
-    public ArrayList<OrderDetail> getOrders(String[] keys) {
+    public ArrayList<OrderDetail> getOrders(String[] keys) throws IOException {
         Request request = new RequestBuilder("GET")
                 .setUrl(BASEURL + String.format("accounts/%s/orders", StringUtils.join(keys, ",")))
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -215,16 +211,12 @@ public class TradeStationWebApi {
                 .build();
 
         ListenableFuture<Response> response = null;
-        try {
-            response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
-                @Override
-                public Response onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
+            @Override
+            public Response onCompleted(Response response) throws Exception {
+                return response;
+            }
+        });
 
         ArrayList<OrderDetail> orders = new ArrayList<OrderDetail>();
 
@@ -240,7 +232,7 @@ public class TradeStationWebApi {
         return orders;
     }
 
-    public ArrayList<OrderResult> placeOrder(Order order) {
+    public ArrayList<OrderResult> placeOrder(Order order) throws IOException {
         ObjectWriter objectWriter = mapper.writer().withDefaultPrettyPrinter();
         String orderjson = null;
         try {
@@ -258,16 +250,12 @@ public class TradeStationWebApi {
                 .build();
 
         ListenableFuture<Response> response = null;
-        try {
-            response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
-                @Override
-                public Response onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
+            @Override
+            public Response onCompleted(Response response) throws Exception {
+                return response;
+            }
+        });
 
         ArrayList<OrderResult> result = null;
         if (response != null) {
@@ -290,7 +278,7 @@ public class TradeStationWebApi {
         return result;
     }
 
-    public ArrayList<Confirm> confirmOrder(Order order) {
+    public ArrayList<Confirm> confirmOrder(Order order) throws IOException {
         ObjectWriter objectWriter = mapper.writer().withDefaultPrettyPrinter();
         String orderjson = null;
         try {
@@ -308,16 +296,12 @@ public class TradeStationWebApi {
                 .build();
 
         ListenableFuture<Response> response = null;
-        try {
-            response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
-                @Override
-                public Response onCompleted(Response response) throws Exception {
-                    return response;
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response = client.executeRequest(request, new AsyncCompletionHandler<Response>() {
+            @Override
+            public Response onCompleted(Response response) throws Exception {
+                return response;
+            }
+        });
 
         ArrayList<Confirm> result = null;
         if (response != null) {
