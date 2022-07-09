@@ -13,7 +13,7 @@ import com.ning.http.client.Request;
 import com.ning.http.client.RequestBuilder;
 import com.ning.http.client.Response;
 import org.apache.commons.lang3.StringUtils;
-import org.asynchttpclient.*;
+//import org.asynchttpclient.*;
 
 import com.ning.http.client.*;
 import org.apache.commons.lang3.StringUtils;

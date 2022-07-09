@@ -15,17 +15,36 @@
     <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server -->
     <dependencies>
 
+        <!-- https://mvnrepository.com/artifact/org.asynchttpclient/async-http-client -->
+<!--        <dependency>-->
+<!--            <groupId>org.asynchttpclient</groupId>-->
+<!--            <artifactId>async-http-client</artifactId>-->
+<!--            <version>2.0.35</version>-->
+<!--            &lt;!&ndash;            async-http-client-1.7.18.jar&ndash;&gt;-->
+<!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.ning/async-http-client -->
+        <dependency>
+            <groupId>com.ning</groupId>
+            <artifactId>async-http-client</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>2.2.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.12.6</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
@@ -33,37 +52,61 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.2.2</version>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.0.1</version>
-            <scope>provided</scope>
+<!--            javax.servlet-3.0.0.v201112011016.jar-->
+<!--            <scope>provided</scope>-->
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-continuation -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-continuation</artifactId>
             <version>8.1.10.v20130312</version>
+<!--            jetty-continuation-8.1.10.v20130312.jar-->
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-http -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-http</artifactId>
             <version>8.1.10.v20130312</version>
+<!--            jetty-http-8.1.10.v20130312.jar-->
         </dependency>
-
-
-
         <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-io -->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-io</artifactId>
             <version>8.1.10.v20130312</version>
+<!--            jetty-io-8.1.10.v20130312.jar-->
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>8.1.10.v20130312</version>
+<!--            jetty-server-8.1.10.v20130312.jar-->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>8.1.10.v20130312</version>
+<!--            jetty-util-8.1.10.v20130312.jar-->
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.41.Final</version>
+<!--            netty-3.6.6.Final.jar-->
+        </dependency>
+
+
+
+
 
 
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -84,40 +127,11 @@
 
 
 
-        <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-server</artifactId>
-        <version>8.1.10.v20130312</version>
-    </dependency>
-        <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-util -->
-        <dependency>
-            <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-util</artifactId>
-            <version>8.1.10.v20130312</version>
-        </dependency>
 
 
 
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>2.12.6</version>
-        </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.asynchttpclient/async-http-client -->
-        <dependency>
-            <groupId>org.asynchttpclient</groupId>
-            <artifactId>async-http-client</artifactId>
-            <version>2.0.35</version>
-        </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.41.Final</version>
-        </dependency>
 
     </dependencies>
 </project>
